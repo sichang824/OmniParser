@@ -73,3 +73,78 @@ If you find our work useful, please consider citing our work:
       url={https://arxiv.org/abs/2408.00203}, 
 }
 ```
+
+## CPU Support
+OmniParser now supports CPU-only execution. Here are the setup steps and performance metrics:
+
+### Device Information
+- MacBook Air M1, 2020
+- Chip: Apple M1
+- Cores: 8 (4 performance and 4 efficiency)
+- Memory: 8GB
+
+### Installation Steps for CPU Version
+
+1. Setup direnv (optional but recommended):
+```bash
+# Install direnv if not installed
+brew install direnv  # MacOS
+# or
+sudo apt-get install direnv  # Ubuntu/Debian
+
+# Add to your shell (add to ~/.zshrc or ~/.bashrc)
+eval "$(direnv hook zsh)"  # for zsh
+# or
+eval "$(direnv hook bash)"  # for bash
+
+# Allow direnv in the project directory
+direnv allow .
+```
+
+2. Download model weights:
+```bash
+# Give execute permission to the script
+chmod +x scripts/dl_models.sh
+# Run the script to download models
+./scripts/dl_models.sh
+```
+
+3. Create virtual environment using `uv`:
+```bash
+# Install uv if not already installed
+pip install uv
+
+# Create and activate virtual environment
+uv venv
+source .venv/bin/activate  # For Unix/MacOS
+# or
+.venv\Scripts\activate  # For Windows
+```
+
+4. Install dependencies:
+```bash
+uv pip install -r requirements-cpu.txt
+```
+
+5. Run the demo:
+```bash
+python gradio_demo_cpu.py
+```
+
+The demo will be available at `http://localhost:7861`
+
+### Performance
+For a 1120x1280 image with 36 icons:
+- Preprocess: 77.1ms
+- Inference: 1469.6ms
+- Postprocess: 20.9ms
+- Total parsing time: ~1.6s
+
+### CPU Configuration
+The CPU version includes these optimizations:
+- Disabled GPU usage
+- Limited CPU threads to 4
+- Forced EasyOCR instead of PaddleOCR
+- Limited maximum image size to 1280px
+
+Note: CPU execution might be slower than GPU, but it provides a viable option for systems without dedicated GPUs or when GPU resources are limited.
