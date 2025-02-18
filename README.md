@@ -77,6 +77,10 @@ If you find our work useful, please consider citing our work:
 ## CPU Support
 OmniParser now supports CPU-only execution. Here are the setup steps and performance metrics:
 
+### CPU Test Result
+
+[Test Result](test/cpu.md)
+
 ### Device Information
 - MacBook Air M1, 2020
 - Chip: Apple M1
